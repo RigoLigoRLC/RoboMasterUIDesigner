@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/colorsel/black.png</file>
+        <file>res/colorsel/blue.png</file>
+        <file>res/colorsel/cyan.png</file>
+        <file>res/colorsel/green.png</file>
+        <file>res/colorsel/organe.png</file>
+        <file>res/colorsel/pink.png</file>
+        <file>res/colorsel/purple.png</file>
+        <file>res/colorsel/red.png</file>
+        <file>res/colorsel/white.png</file>
+        <file>res/colorsel/yellow.png</file>
+        <file>res/client_background.png</file>
+        <file>i18n/RoboMasterUIDesigner_zh_CN.qm</file>
+    </qresource>
+</RCC>
