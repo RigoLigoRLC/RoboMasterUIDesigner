@@ -11,7 +11,7 @@ GridedGraphicsView::GridedGraphicsView(QWidget *parent) :
 
 void GridedGraphicsView::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    // Mostly created by ChatGPT
+    // Initially created by ChatGPT
     QGraphicsView::drawBackground(painter, rect);
 
     // Paint background picture
@@ -31,20 +31,24 @@ void GridedGraphicsView::drawBackground(QPainter *painter, const QRectF &rect)
         lines.append(QLineF(rect.left(), y, rect.right(), y));
 
     // Paint grid
-    painter->setPen(QColor(220, 220, 220, 70));
+    painter->setPen(QColor(220, 220, 220, 30));
     painter->drawLines(lines.data(), lines.size());
 
     // Numbers on axis
     const int labelStep = 50;
+    qreal bottom = int(rect.bottom()) -  (int(rect.bottom()) % gridStep);
     QFont font = painter->font() ;
     font.setPointSize(8);
     painter->setFont(font);
-    painter->setPen(QColor(180, 180, 180, 120));
+    painter->setPen(QColor(220, 220, 220, 120));
+
+    qreal labelTop = (rect.top() < 0 ? 0 : rect.top()) + 15;
+    qreal labelLeft = (rect.left() < 0 ? 0 : rect.left()) + 5;
 
     for (qreal x = int(left - int(left) % labelStep); x < rect.right(); x += labelStep)
-        painter->drawText(QPointF(x, 0), QString::number(x));
-    for (qreal y = int(top - int(top) % labelStep); y < rect.bottom(); y += labelStep)
-        painter->drawText(QPointF(0, y), QString::number(y));
+        painter->drawText(QPointF(x, labelTop), QString::number(x));
+    for (qreal y = int(bottom - int(bottom) % labelStep - (labelStep - 1080 % labelStep)); y > rect.top(); y -= labelStep)
+        painter->drawText(QPointF(labelLeft, y), QString::number(1080 - y));
 
     // Axis
     painter->setPen(QPen(QColor(255, 150, 150, 70), 1));
