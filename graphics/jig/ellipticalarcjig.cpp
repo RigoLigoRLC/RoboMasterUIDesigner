@@ -37,7 +37,26 @@ void EllipticalArcJig::setRect(QRect rect)
 {
     m_halfWidth = rect.width() / 2;
     m_halfHeight = rect.height() / 2;
+    m_handleCenter->setCenter(rect.center());
     invalidateGraphics();
+}
+
+void EllipticalArcJig::setBeginEndAngles(double begin, double end)
+{
+    m_angleBegin = begin;
+    m_angleEnd = end;
+
+    invalidateGraphics();
+}
+
+std::tuple<int, int> EllipticalArcJig::qtArcStartSpanAngles()
+{
+    return { m_resultArc->startAngle(), m_resultArc->spanAngle() };
+}
+
+std::tuple<double, double> EllipticalArcJig::rmArcBeginEndAnglesRadian()
+{
+    return { m_angleBegin, m_angleEnd };
 }
 
 void EllipticalArcJig::remember()

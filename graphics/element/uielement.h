@@ -78,6 +78,9 @@ public:
     // Associated item
     QGraphicsItem* item() { return m_item; }
 
+    // Element type
+    ElementType type() { return m_type; }
+
     // Line width
     void setLineWidth(int px);
     int lineWidth() { return m_lineWidth; };

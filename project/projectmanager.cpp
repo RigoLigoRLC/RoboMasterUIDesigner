@@ -1,4 +1,6 @@
 
+#include "ellipseelement.h"
+#include "ellipticalarcelement.h"
 #include "rectangleelement.h"
 #include "projectmanager.h"
 #include "../mainwindow.h"
@@ -33,17 +35,21 @@ ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, si
 
     case RectangleElementType:
         newElem = new RectangleElement;
-        newItem = new QTreeWidgetItem;
-        ((RectangleElement*)newElem)->setRect({ 0, 0, 100, 100 }); // TODO: defaults? width?
+        ((RectangleElement*)newElem)->setRect({ 0, 0, 100, 100 }); // TODO: defaults?
         break;
 
     case CircleElementType:
         break;
 
     case EllipseElementType:
+        newElem = new EllipseElement;
+        ((EllipseElement*)newElem)->setRect({ 0, 0, 100, 100 });
         break;
 
     case ArcElementType:
+        newElem = new EllipticalArcElement;
+        ((EllipticalArcElement*)newElem)->setRect({ 0, 0, 100, 100 });
+
         break;
 
     case FloatingPointTextElementType:
@@ -55,7 +61,9 @@ ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, si
     case StringElementType:
         break;
     }
-    if (newElem == nullptr || newItem == nullptr) return nullptr;
+    if (newElem == nullptr) return nullptr;
+
+    newItem = new QTreeWidgetItem;
 
     newItem->setText(0, newElem->descriptiveText());
     newItem->setData(0, MainWindow::ItemTreeItemUidRole, newElem->uid());

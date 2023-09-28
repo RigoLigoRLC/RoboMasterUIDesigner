@@ -5,6 +5,8 @@
 #include <QGraphicsScene>
 #include "elementselectionevent.h"
 
+#include "ellipseelement.h"
+#include "ellipticalarcelement.h"
 #include "uielement.h"
 #include "rectangleelement.h"
 
@@ -49,8 +51,14 @@ void UiElement::setLineWidth(int px)
     case CircleElementType:
         break;
     case EllipseElementType:
+        pen = ((EllipseElement*)m_item)->pen();
+        pen.setWidth(px);
+        ((EllipseElement*)m_item)->setPen(pen);
         break;
     case ArcElementType:
+        pen = ((EllipticalArcElement*)m_item)->pen();
+        pen.setWidth(px);
+        ((EllipticalArcElement*)m_item)->setPen(pen);
         break;
     case FloatingPointTextElementType:
         break;
@@ -80,8 +88,14 @@ void UiElement::setColor(ElementColor storedColor, ElementColor color)
     case CircleElementType:
         break;
     case EllipseElementType:
+        pen = ((EllipseElement*)m_item)->pen();
+        pen.setColor(elementColorList[color]);
+        ((EllipseElement*)m_item)->setPen(pen);
         break;
     case ArcElementType:
+        pen = ((EllipticalArcElement*)m_item)->pen();
+        pen.setColor(elementColorList[color]);
+        ((EllipticalArcElement*)m_item)->setPen(pen);
         break;
     case FloatingPointTextElementType:
         break;

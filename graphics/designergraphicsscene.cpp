@@ -133,6 +133,7 @@ void DesignerGraphicsScene::broadcastStateAccordingToSelection()
             for(auto i = 1; i != 0; i <<= 1) {
                 if (i & element->applicableJigs()) {
                     selectJig((JigType)i);
+                    break;
                 }
             }
         }

@@ -3,34 +3,35 @@
 #include <QDataStream>
 #include <QBuffer>
 #include "anchorjig.h"
-#include "rectangleelement.h"
+#include "ellipseelement.h"
 #include "elementjig.h"
+#include "ellipticalarcjig.h"
 #include "rectangularjig.h"
 
-RectangleElement::RectangleElement(QGraphicsItem *parent) :
-    QGraphicsRectItem(parent),
-    UiElement(RectangleElementType, this)
+EllipseElement::EllipseElement(QGraphicsItem *parent) :
+    QGraphicsEllipseItem(parent),
+    UiElement(EllipseElementType, this)
 {
 
 }
 
-void RectangleElement::remember()
+void EllipseElement::remember()
 {
     m_rememberedShape = rect();
 }
 
-void RectangleElement::restore()
+void EllipseElement::restore()
 {
     setRect(m_rememberedShape);
 }
 
-void RectangleElement::forget()
+void EllipseElement::forget()
 {
     m_rememberedShape = rect().normalized();
     restore();
 }
 
-void RectangleElement::morphWithJigShape(ElementJig *jig)
+void EllipseElement::morphWithJigShape(ElementJig *jig)
 {
     switch (jig->jigType()) {
     case RectangularJigType:
@@ -48,7 +49,7 @@ void RectangleElement::morphWithJigShape(ElementJig *jig)
     }
 }
 
-void RectangleElement::initializeJigShape(ElementJig *jig)
+void EllipseElement::initializeJigShape(ElementJig *jig)
 {
     switch (jig->jigType()) {
     case RectangularJigType:
@@ -63,12 +64,12 @@ void RectangleElement::initializeJigShape(ElementJig *jig)
     }
 }
 
-int RectangleElement::applicableJigs()
+int EllipseElement::applicableJigs()
 {
     return RectangularJigType | AnchorJigType;
 }
 
-QByteArray RectangleElement::dumpState()
+QByteArray EllipseElement::dumpState()
 {
     QBuffer buf;
     QDataStream ds(&buf);
@@ -77,7 +78,7 @@ QByteArray RectangleElement::dumpState()
     return ret;
 }
 
-void RectangleElement::undumpState(QByteArray state)
+void EllipseElement::undumpState(QByteArray state)
 {
     QBuffer buf(&state);
     QDataStream ds(&buf);
@@ -86,7 +87,7 @@ void RectangleElement::undumpState(QByteArray state)
     setRect(rect);
 }
 
-QString RectangleElement::descriptiveText()
+QString EllipseElement::descriptiveText()
 {
-    return QObject::tr("Rectangle (%1 x %2)").arg(rect().width()).arg(rect().height());
+    return QObject::tr("Ellipse (%1 x %2)").arg(rect().width()).arg(rect().height());
 }

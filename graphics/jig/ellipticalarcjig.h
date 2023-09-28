@@ -5,6 +5,7 @@
 #include "jighandle.h"
 #include <QGraphicsLineItem>
 #include <QGraphicsEllipseItem>
+#include <tuple>
 
 class EllipticalArcJig : public ElementJig
 {
@@ -12,6 +13,12 @@ public:
     EllipticalArcJig(QGraphicsItem* parent = nullptr);
 
     void setRect(QRect rect);
+    void setBeginEndAngles(double begin, double end);
+
+    std::tuple<int, int> qtArcStartSpanAngles();
+    std::tuple<double, double> rmArcBeginEndAnglesRadian();
+
+    QRect jigRect() { return m_resultArc->rect().toAlignedRect(); }
 
     virtual JigType jigType() override { return JigType::EllipticalArcJigType; }
 

@@ -1,6 +1,8 @@
 #include "mainwindow.h"
+#include "anchorjig.h"
 #include "elementjig.h"
 #include "./ui_mainwindow.h"
+#include "rectangleelement.h"
 #include "uielement.h"
 #include "projectmanager.h"
 #include <QGraphicsScene>
@@ -15,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->graphicsView->setScene(m_scene);
     ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+//    ui->graphicsView->fitInView({0, 0, 1920, 1080}); // Not applicable now
 }
 
 MainWindow::~MainWindow()
@@ -56,20 +59,26 @@ void MainWindow::initializeUi()
     m_scene = new DesignerGraphicsScene(this);
     m_scene->addJig(new RectangularJig);
     m_scene->addJig(new EllipticalArcJig);
+    m_scene->addJig(new AnchorJig);
     connect(m_scene, &DesignerGraphicsScene::jigStateChanged, this, &MainWindow::_q_jigStateChanged);
-    connect(m_scene, &DesignerGraphicsScene::colorSelectionChanged, this, &MainWindow::_q_colorChanged);
+//    connect(m_scene, &DesignerGraphicsScene::colorSelectionChanged, this, &MainWindow::_q_colorChanged);
     connect(m_scene, &DesignerGraphicsScene::addedToSelection, this, &MainWindow::_q_addedToSelection);
     connect(m_scene, &DesignerGraphicsScene::batchAddedToSelection, this, &MainWindow::_q_batchAddedToSelection);
     connect(m_scene, &DesignerGraphicsScene::removedFromSelection, this, &MainWindow::_q_removedFromSelection);
     connect(m_scene, &DesignerGraphicsScene::selectionCleared, this, &MainWindow::_q_selectionCleared);
+
+    connect(m_scene, &DesignerGraphicsScene::commitJigEdit, this, &MainWindow::_q_jigEditCommitted);
 
     connect(m_scene, &DesignerGraphicsScene::commitJigEdit, m_prj, &ProjectManager::commitJigEdit);
 
     // Set up add item menu
     m_menuAddItem = new QMenu(this);
     m_actAddRect = new QAction(tr("&Rectangle"));
-//    m_menuAddItem->addAction(m_actAddRect);
+    m_actAddEllipse = new QAction(tr("&Ellipse"));
+    m_actAddArc = new QAction(tr("&Arc"));
     ui->tbAdd->addAction(m_actAddRect);
+    ui->tbAdd->addAction(m_actAddEllipse);
+    ui->tbAdd->addAction(m_actAddArc);
 
     // Initialize status bar
     m_currentLayerIndicator = new QLabel;
@@ -96,23 +105,81 @@ void MainWindow::setCurrentLayer(int layer)
     m_currentLayerIndicator->setText(tr("Layer %1").arg(layer));
 }
 
+void MainWindow::updatePropertyPanelAccordingToSelection()
+{
+    ui->widCommon->setEnabled(m_selection.size() == 1);
+    ui->stackObjectProp->setEnabled(m_selection.size() == 1);
+
+    // TODO: Move color determination here too?
+    if (m_selection.size() == 0) {
+        _q_colorChanged(InvalidColor);
+
+    } else if (m_selection.size() == 1) {
+        auto elem = m_prj->getItemEntry(*m_selection.begin())->element;
+
+        switch (elem->type()) {
+        default:
+        case NoneElementType:
+            qWarning() << "Unexpected element type" << elem->type();
+            return;
+        case LineElementType: {
+            break;
+        }
+        case RectangleElementType: {
+            auto e = (RectangleElement*)elem;
+            ui->stackObjectProp->setCurrentIndex(elem->type());
+            ui->spinX->setValue(e->rect().left());
+            ui->spinY->setValue(e->rect().top());
+            ui->spinRectX2->setValue(e->rect().right());
+            ui->spinRectY2->setValue(e->rect().bottom());
+            break;
+        }
+        case CircleElementType: {
+            break;
+        }
+        case EllipseElementType: {
+            break;
+        }
+        case ArcElementType: {
+            break;
+        }
+        case FloatingPointTextElementType: {
+            break;
+        }
+        case IntegerTextElementType: {
+            break;
+        }
+        case StringElementType: {
+            break;
+        }
+        }
+
+        ui->spinWidth->setValue(elem->lineWidth());
+        _q_colorChanged(elem->color());
+    } else {
+
+        _q_colorChanged(UnknownColor);
+    }
+}
+
 void MainWindow::jigSelectionChanged(int id)
 {
-    switch ((JigType)id) {
-    case RectangularJigType:
-        break;
-    case EllipticalArcJigType:
-        break;
-    case CircularJigType:
-        break;
-    case LinearJigType:
-        break;
-    case AnchorJigType:
-        break;
-    case NullJigType:
-    default:
-        break;
-    }
+//    switch ((JigType)id) {
+//    case RectangularJigType:
+//        break;
+//    case EllipticalArcJigType:
+//        break;
+//    case CircularJigType:
+//        break;
+//    case LinearJigType:
+//        break;
+//    case AnchorJigType:
+//        break;
+//    case NullJigType:
+//    default:
+//        break;
+//    }
+    m_scene->selectJig((JigType)id);
 }
 
 void MainWindow::colorSelctionChanged(int id)
@@ -170,6 +237,8 @@ void MainWindow::_q_addedToSelection(size_t uid)
     if (entry && entry->item)
         entry->item->setSelected(true);
     m_selection.insert(uid);
+
+    updatePropertyPanelAccordingToSelection();
 }
 
 void MainWindow::_q_batchAddedToSelection(QList<size_t> uids)
@@ -180,6 +249,8 @@ void MainWindow::_q_batchAddedToSelection(QList<size_t> uids)
             entry->item->setSelected(true);
         m_selection.insert(i);
     }
+
+    updatePropertyPanelAccordingToSelection();
 }
 
 void MainWindow::_q_removedFromSelection(size_t uid)
@@ -188,6 +259,8 @@ void MainWindow::_q_removedFromSelection(size_t uid)
     if (entry && entry->item)
         entry->item->setSelected(false);
     m_selection.remove(uid);
+
+    updatePropertyPanelAccordingToSelection();
 }
 
 void MainWindow::_q_selectionCleared()
@@ -198,6 +271,13 @@ void MainWindow::_q_selectionCleared()
             entry->item->setSelected(false);
     }
     m_selection.clear();
+
+    updatePropertyPanelAccordingToSelection();
+}
+
+void MainWindow::_q_jigEditCommitted(size_t uid)
+{
+    updatePropertyPanelAccordingToSelection();
 }
 
 void MainWindow::on_tbAdd_triggered(QAction *act)
@@ -206,6 +286,10 @@ void MainWindow::on_tbAdd_triggered(QAction *act)
 
     if (act == m_actAddRect) {
         entry = m_prj->createNewElement(RectangleElementType, m_currentLayer);
+    } else if (act == m_actAddEllipse) {
+        entry = m_prj->createNewElement(EllipseElementType, m_currentLayer);
+    } else if (act == m_actAddArc) {
+        entry = m_prj->createNewElement(ArcElementType, m_currentLayer);
     }
     // TODO: all actions...
 

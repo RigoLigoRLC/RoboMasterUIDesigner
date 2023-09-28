@@ -10,6 +10,7 @@ public:
     JigHandle(QRect rect, QGraphicsItem* parent = nullptr);
 
     void setCenter(QPoint p);
+    QPoint center() { return rect().center().toPoint(); }
 
     static constexpr int HandleWidth = 8;
     static QColor HandleColor;

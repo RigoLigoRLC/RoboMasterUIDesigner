@@ -30,6 +30,7 @@ private:
 
     // Editor state modifiers
     void setCurrentLayer(int layer);
+    void updatePropertyPanelAccordingToSelection();
 
 private slots:
     void jigSelectionChanged(int id);
@@ -44,6 +45,8 @@ private slots:
     void _q_batchAddedToSelection(QList<size_t> uid);
     void _q_removedFromSelection(size_t uid);
     void _q_selectionCleared();
+
+    void _q_jigEditCommitted(size_t uid);
 
     void on_tbAdd_triggered(QAction *arg1);
 
@@ -85,6 +88,7 @@ private:
     QMenu *m_menuAddItem;
     QAction *m_actAddRect;
     QAction *m_actAddArc;
+    QAction *m_actAddEllipse;
 
     // Status bar indicators
     QLabel *m_currentLayerIndicator;

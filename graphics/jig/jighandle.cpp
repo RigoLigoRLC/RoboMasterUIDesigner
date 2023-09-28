@@ -11,6 +11,7 @@ JigHandle::JigHandle(QGraphicsItem *parent) :
     QGraphicsRectItem(QRect(-HandleWidth / 2, -HandleWidth / 2, HandleWidth, HandleWidth), parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
+    setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
     setBrush(HandleColor);
 
     m_moveConfirmed = false;

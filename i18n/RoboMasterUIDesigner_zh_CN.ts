@@ -39,27 +39,27 @@
         <translation>锚定点</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="252"/>
+        <location filename="../mainwindow.ui" line="265"/>
         <source>Common</source>
         <translation>公共属性</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="267"/>
+        <location filename="../mainwindow.ui" line="280"/>
         <source>X</source>
         <translation>X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="284"/>
+        <location filename="../mainwindow.ui" line="303"/>
         <source>Y</source>
         <translation>Y</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="294"/>
+        <location filename="../mainwindow.ui" line="320"/>
         <source>Width</source>
         <translation>宽度</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="311"/>
+        <location filename="../mainwindow.ui" line="345"/>
         <source>Color</source>
         <translation>颜色</translation>
     </message>
@@ -68,125 +68,135 @@
         <translation type="vanished">队伍</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="362"/>
-        <location filename="../mainwindow.ui" line="554"/>
+        <location filename="../mainwindow.ui" line="396"/>
+        <location filename="../mainwindow.ui" line="588"/>
         <source>Team Color</source>
         <translation>队伍颜色</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="630"/>
+        <location filename="../mainwindow.ui" line="664"/>
         <source>Object</source>
         <translation>对象属性</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="656"/>
-        <location filename="../mainwindow.ui" line="692"/>
+        <location filename="../mainwindow.ui" line="690"/>
+        <location filename="../mainwindow.ui" line="740"/>
         <source>X2</source>
         <translation>X2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="666"/>
-        <location filename="../mainwindow.ui" line="702"/>
+        <location filename="../mainwindow.ui" line="707"/>
+        <location filename="../mainwindow.ui" line="757"/>
         <source>Y2</source>
         <translation>Y2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="728"/>
+        <location filename="../mainwindow.ui" line="790"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="754"/>
-        <location filename="../mainwindow.ui" line="790"/>
+        <location filename="../mainwindow.ui" line="823"/>
+        <location filename="../mainwindow.ui" line="873"/>
         <source>X Semiaxis</source>
         <translation>X 半轴</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="764"/>
-        <location filename="../mainwindow.ui" line="800"/>
+        <location filename="../mainwindow.ui" line="840"/>
+        <location filename="../mainwindow.ui" line="890"/>
         <source>Y Semiaxis</source>
         <translation>Y 半轴</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="810"/>
+        <location filename="../mainwindow.ui" line="907"/>
         <source>Starting angle</source>
         <translation>起始角</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="820"/>
+        <location filename="../mainwindow.ui" line="921"/>
         <source>Ending angle</source>
         <translation>终止角</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="846"/>
-        <location filename="../mainwindow.ui" line="882"/>
-        <location filename="../mainwindow.ui" line="918"/>
+        <location filename="../mainwindow.ui" line="951"/>
+        <location filename="../mainwindow.ui" line="994"/>
+        <location filename="../mainwindow.ui" line="1037"/>
         <source>Size</source>
         <translation>字号</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="856"/>
+        <location filename="../mainwindow.ui" line="968"/>
         <source>Floating point number</source>
         <translation>浮点数</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="892"/>
+        <location filename="../mainwindow.ui" line="1011"/>
         <source>Integer number</source>
         <translation>整数</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="928"/>
+        <location filename="../mainwindow.ui" line="1054"/>
         <source>String</source>
         <translation>字符串</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="995"/>
+        <location filename="../mainwindow.ui" line="1121"/>
         <source>Objects</source>
         <translation>对象树</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1027"/>
+        <location filename="../mainwindow.ui" line="1153"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1040"/>
+        <location filename="../mainwindow.ui" line="1166"/>
         <source>+ Add Element</source>
         <translation>+ 添加元素</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1084"/>
+        <location filename="../mainwindow.ui" line="1210"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1094"/>
+        <location filename="../mainwindow.ui" line="1220"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1097"/>
+        <location filename="../mainwindow.ui" line="1223"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1102"/>
+        <location filename="../mainwindow.ui" line="1228"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1105"/>
+        <location filename="../mainwindow.ui" line="1231"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="70"/>
+        <location filename="../mainwindow.cpp" line="76"/>
         <source>&amp;Rectangle</source>
         <translation>矩形(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="82"/>
-        <location filename="../mainwindow.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="77"/>
+        <source>&amp;Ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="78"/>
+        <source>&amp;Arc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="91"/>
+        <location filename="../mainwindow.cpp" line="105"/>
         <source>Layer %1</source>
         <translation>图层 %1</translation>
     </message>
@@ -194,10 +204,20 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../graphics/element/rectangleelement.cpp" line="87"/>
+        <location filename="../graphics/element/rectangleelement.cpp" line="91"/>
         <source>Rectangle (%1 x %2)</source>
         <oldsource>Rectangle (%1 x %1)</oldsource>
         <translation>矩形 (%1 x %2)</translation>
+    </message>
+    <message>
+        <location filename="../graphics/element/ellipseelement.cpp" line="92"/>
+        <source>Ellipse (%1 x %2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../graphics/element/ellipticalarcelement.cpp" line="114"/>
+        <source>Arc (%1 x %2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
