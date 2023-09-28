@@ -187,12 +187,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="79"/>
         <source>&amp;Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>椭圆(&amp;E)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="80"/>
         <source>&amp;Arc</source>
-        <translation type="unfinished"></translation>
+        <translation>圆弧(&amp;A)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="93"/>
@@ -212,12 +212,12 @@
     <message>
         <location filename="../graphics/element/ellipseelement.cpp" line="101"/>
         <source>Ellipse (%1 x %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>椭圆 (%1 x %2)</translation>
     </message>
     <message>
         <location filename="../graphics/element/ellipticalarcelement.cpp" line="137"/>
         <source>Arc (%1 x %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>圆弧 (%1 x %2)</translation>
     </message>
 </context>
 </TS>
