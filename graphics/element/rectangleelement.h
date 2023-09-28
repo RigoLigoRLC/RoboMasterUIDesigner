@@ -9,6 +9,9 @@ class RectangleElement final : public QGraphicsRectItem, public UiElement
 public:
     RectangleElement(QGraphicsItem* parent = nullptr);
 
+    // Rect in RM client system
+    QRect rmRect();
+
     virtual void remember() override;
     virtual void restore() override;
     virtual void forget() override;

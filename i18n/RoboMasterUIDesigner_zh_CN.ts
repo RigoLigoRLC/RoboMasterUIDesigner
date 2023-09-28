@@ -180,23 +180,23 @@
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="76"/>
+        <location filename="../mainwindow.cpp" line="78"/>
         <source>&amp;Rectangle</source>
         <translation>矩形(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="77"/>
+        <location filename="../mainwindow.cpp" line="79"/>
         <source>&amp;Ellipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="78"/>
+        <location filename="../mainwindow.cpp" line="80"/>
         <source>&amp;Arc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="91"/>
-        <location filename="../mainwindow.cpp" line="105"/>
+        <location filename="../mainwindow.cpp" line="93"/>
+        <location filename="../mainwindow.cpp" line="107"/>
         <source>Layer %1</source>
         <translation>图层 %1</translation>
     </message>
@@ -204,18 +204,18 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../graphics/element/rectangleelement.cpp" line="91"/>
+        <location filename="../graphics/element/rectangleelement.cpp" line="100"/>
         <source>Rectangle (%1 x %2)</source>
         <oldsource>Rectangle (%1 x %1)</oldsource>
         <translation>矩形 (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../graphics/element/ellipseelement.cpp" line="92"/>
+        <location filename="../graphics/element/ellipseelement.cpp" line="101"/>
         <source>Ellipse (%1 x %2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../graphics/element/ellipticalarcelement.cpp" line="114"/>
+        <location filename="../graphics/element/ellipticalarcelement.cpp" line="137"/>
         <source>Arc (%1 x %2)</source>
         <translation type="unfinished"></translation>
     </message>

@@ -9,6 +9,8 @@ class EllipseElement final : public QGraphicsEllipseItem, public UiElement
 public:
     EllipseElement(QGraphicsItem* parent = nullptr);
 
+    QRect rmRect();
+
     virtual void remember() override;
     virtual void restore() override;
     virtual void forget() override;

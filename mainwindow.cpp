@@ -2,6 +2,8 @@
 #include "anchorjig.h"
 #include "elementjig.h"
 #include "./ui_mainwindow.h"
+#include "ellipseelement.h"
+#include "ellipticalarcelement.h"
 #include "rectangleelement.h"
 #include "uielement.h"
 #include "projectmanager.h"
@@ -128,19 +130,33 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
         case RectangleElementType: {
             auto e = (RectangleElement*)elem;
             ui->stackObjectProp->setCurrentIndex(elem->type());
-            ui->spinX->setValue(e->rect().left());
-            ui->spinY->setValue(e->rect().top());
-            ui->spinRectX2->setValue(e->rect().right());
-            ui->spinRectY2->setValue(e->rect().bottom());
+            ui->spinX->setValue(e->rmRect().left());
+            ui->spinY->setValue(e->rmRect().top());
+            ui->spinRectX2->setValue(e->rmRect().right());
+            ui->spinRectY2->setValue(e->rmRect().bottom());
             break;
         }
         case CircleElementType: {
             break;
         }
         case EllipseElementType: {
+            auto e = (EllipseElement*)elem;
+            ui->stackObjectProp->setCurrentIndex(elem->type());
+            ui->spinX->setValue(e->rmRect().left());
+            ui->spinY->setValue(e->rmRect().top());
+            ui->spinEllipseXsemiaxis->setValue(e->rmRect().width() / 2);
+            ui->spinEllipseYsemiaxis->setValue(e->rmRect().height() / 2);
             break;
         }
         case ArcElementType: {
+            auto e = (EllipticalArcElement*)elem;
+            ui->stackObjectProp->setCurrentIndex(elem->type());
+            ui->spinX->setValue(e->rmRect().left());
+            ui->spinY->setValue(e->rmRect().top());
+            ui->spinArcXsemiaxis->setValue(e->rmRect().width() / 2);
+            ui->spinArcYsemiaxis->setValue(e->rmRect().height() / 2);
+            ui->spinArcStartingAngle->setValue(std::get<0>(e->degrees()));
+            ui->spinArcEndingAngle->setValue(std::get<1>(e->degrees()));
             break;
         }
         case FloatingPointTextElementType: {
@@ -303,5 +319,13 @@ void MainWindow::on_tbAdd_triggered(QAction *act)
 void MainWindow::on_tbAdd_clicked()
 {
     ui->tbAdd->showMenu();
+}
+
+
+void MainWindow::on_spinWidth_valueChanged(int arg1)
+{
+    foreach (auto i, m_selection) {
+        m_prj->getItemEntry(i)->element->setLineWidth(arg1);
+    }
 }
 

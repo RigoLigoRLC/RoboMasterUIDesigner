@@ -37,6 +37,8 @@ void UiElement::setLineWidth(int px)
 {
     QPen pen;
 
+    m_lineWidth = px;
+
     // TODO: Implement all types of elements
     switch (m_type) {
     case NoneElementType:

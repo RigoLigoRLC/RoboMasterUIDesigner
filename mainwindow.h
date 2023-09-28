@@ -49,8 +49,9 @@ private slots:
     void _q_jigEditCommitted(size_t uid);
 
     void on_tbAdd_triggered(QAction *arg1);
-
     void on_tbAdd_clicked();
+
+    void on_spinWidth_valueChanged(int arg1);
 
 public:
     // Constants

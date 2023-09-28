@@ -10,6 +10,9 @@ class EllipticalArcElement final : public QGraphicsEllipseItem, public UiElement
 public:
     EllipticalArcElement(QGraphicsItem* parent = nullptr);
 
+    QRect rmRect();
+    std::tuple<int, int> degrees();
+
     virtual void remember() override;
     virtual void restore() override;
     virtual void forget() override;

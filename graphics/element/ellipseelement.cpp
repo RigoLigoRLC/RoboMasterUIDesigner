@@ -15,6 +15,15 @@ EllipseElement::EllipseElement(QGraphicsItem *parent) :
 
 }
 
+QRect EllipseElement::rmRect()
+{
+    auto r = rect();
+    auto h = r.height();
+    r.setTop(1080 - r.top());
+    r.setHeight(h);
+    return r.toAlignedRect();
+}
+
 void EllipseElement::remember()
 {
     m_rememberedShape = rect();

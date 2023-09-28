@@ -11,7 +11,19 @@ RectangleElement::RectangleElement(QGraphicsItem *parent) :
     QGraphicsRectItem(parent),
     UiElement(RectangleElementType, this)
 {
+    QPen pen;
+    pen.setCapStyle(Qt::FlatCap);
+    pen.setJoinStyle(Qt::MiterJoin);
+    setPen(pen);
+}
 
+QRect RectangleElement::rmRect()
+{
+    auto r = rect();
+    auto h = r.height();
+    r.setTop(1080 - r.top());
+    r.setHeight(h);
+    return r.toAlignedRect();
 }
 
 void RectangleElement::remember()

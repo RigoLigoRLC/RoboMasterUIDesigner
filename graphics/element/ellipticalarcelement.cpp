@@ -19,6 +19,20 @@ EllipticalArcElement::EllipticalArcElement(QGraphicsItem *parent) :
     setSpanAngle(90 * 16);
 }
 
+QRect EllipticalArcElement::rmRect()
+{
+    auto r = rect();
+    auto h = r.height();
+    r.setTop(1080 - r.top());
+    r.setHeight(h);
+    return r.toAlignedRect();
+}
+
+std::tuple<int, int> EllipticalArcElement::degrees()
+{
+    return {(int)(m_beginAngle / M_PI * 180), (int)(m_endAngle / M_PI * 180)};
+}
+
 void EllipticalArcElement::remember()
 {
     m_rememberedShape = rect();
