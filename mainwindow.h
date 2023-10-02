@@ -50,8 +50,8 @@ private slots:
 
     void on_tbAdd_triggered(QAction *arg1);
     void on_tbAdd_clicked();
-
     void on_spinWidth_valueChanged(int arg1);
+    void on_btnDelete_clicked();
 
 public:
     // Constants
@@ -87,6 +87,7 @@ private:
 
     // Add item menu
     QMenu *m_menuAddItem;
+    QAction *m_actAddLine;
     QAction *m_actAddRect;
     QAction *m_actAddArc;
     QAction *m_actAddEllipse;

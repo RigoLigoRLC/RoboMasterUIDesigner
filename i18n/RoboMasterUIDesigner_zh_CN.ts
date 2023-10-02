@@ -180,23 +180,28 @@
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="78"/>
+        <location filename="../mainwindow.cpp" line="81"/>
+        <source>&amp;Line</source>
+        <translation>直线(&amp;L)</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="82"/>
         <source>&amp;Rectangle</source>
         <translation>矩形(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="79"/>
+        <location filename="../mainwindow.cpp" line="83"/>
         <source>&amp;Ellipse</source>
         <translation>椭圆(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="80"/>
+        <location filename="../mainwindow.cpp" line="84"/>
         <source>&amp;Arc</source>
         <translation>圆弧(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="93"/>
-        <location filename="../mainwindow.cpp" line="107"/>
+        <location filename="../mainwindow.cpp" line="104"/>
+        <location filename="../mainwindow.cpp" line="118"/>
         <source>Layer %1</source>
         <translation>图层 %1</translation>
     </message>
@@ -204,7 +209,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../graphics/element/rectangleelement.cpp" line="100"/>
+        <location filename="../graphics/element/rectangleelement.cpp" line="102"/>
         <source>Rectangle (%1 x %2)</source>
         <oldsource>Rectangle (%1 x %1)</oldsource>
         <translation>矩形 (%1 x %2)</translation>
@@ -218,6 +223,11 @@
         <location filename="../graphics/element/ellipticalarcelement.cpp" line="137"/>
         <source>Arc (%1 x %2)</source>
         <translation>圆弧 (%1 x %2)</translation>
+    </message>
+    <message>
+        <location filename="../graphics/element/lineelement.cpp" line="99"/>
+        <source>Line (%1, %2) - (%3, %4)</source>
+        <translation>直线 (%1, %2) - (%3, %4)</translation>
     </message>
 </context>
 </TS>

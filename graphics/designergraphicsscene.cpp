@@ -5,6 +5,7 @@
 #include "jigeditingevent.h"
 #include "elementselectionevent.h"
 #include "designergraphicsscene.h"
+#include "jighandlemoveevent.h"
 #include "qgraphicssceneevent.h"
 
 
@@ -174,11 +175,16 @@ void DesignerGraphicsScene::keyPressEvent(QKeyEvent *e)
     if (e->key() == Qt::Key_Escape) {
         // Escape key is used to cancel an ongoing jig operation
         if (!m_selection.isEmpty() && m_visibleJig && m_jigDoingEditing) {
-            // Emulate a cancel event that was from the jig (but actually from scene's keyboard event)
+            // HACK:
+            // Emulate a cancel event that was from the handle (but actually from scene's keyboard event)
             // (because unless you make jig or jig handle "focusable" they would not be getting
             // keyPressEvent's from scene, so we have to intercept key event here)
-            JigEditingEvent pseudoCancelEvent(JigEditingEvent::CancelEdit, m_visibleJig);
-            jigEditingEvent(&pseudoCancelEvent);
+            // This will be forwarded to scene in the jig.
+            // NOTE:
+            // I have made sure that the args here except for the new state (CancelEdit) is not used
+            // in the code path.
+
+            sendEvent(m_visibleJig, new JigHandleMoveEvent(nullptr, {}, {}, JigHandleMoveEvent::CancelEdit));
         }
     } else {
         QGraphicsScene::keyPressEvent(e);
@@ -201,15 +207,22 @@ void DesignerGraphicsScene::jigEditingEvent(JigEditingEvent *e)
 {
     // FIXME: switch to selection state, and handle group scaling
     switch (e->state()) {
+    case JigEditingEvent::PrepareEdit:
+        if (!m_jigDoingEditing) {
+            e->jig()->remember();
+            if (m_selection.size() == 1) {
+                auto itemEditing = *m_selection.begin();
+                itemEditing->remember();
+            }
+        }
+        break;
     case JigEditingEvent::BeginEdit:
         if (!m_jigDoingEditing) {
             m_jigDoingEditing = true;
             if (m_selection.size() == 1) {
                 auto itemEditing = *m_selection.begin();
-                itemEditing->remember();
                 itemEditing->morphWithJigShape(e->jig());
             }
-            e->jig()->remember();
         }
         break;
     case JigEditingEvent::DoingEdit:

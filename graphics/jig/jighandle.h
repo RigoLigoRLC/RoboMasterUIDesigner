@@ -3,14 +3,18 @@
 
 #include <QGraphicsRectItem>
 
+class ElementJig;
+
 class JigHandle : public QGraphicsRectItem
 {
 public:
-    JigHandle(QGraphicsItem *parent = nullptr);
-    JigHandle(QRect rect, QGraphicsItem* parent = nullptr);
+    JigHandle(QGraphicsItem *parent = nullptr, int id = -1);
+    JigHandle(QRect rect, QGraphicsItem* parent = nullptr, int id = -1);
 
     void setCenter(QPoint p);
     QPoint center() { return rect().center().toPoint(); }
+
+    int id() { return data(HandleIndex).toInt(); }
 
     static constexpr int HandleWidth = 8;
     static QColor HandleColor;
@@ -26,6 +30,8 @@ protected:
 
     QPointF m_scenePressPos, m_beginDragRectCenter;
     bool m_moveConfirmed;
+
+    friend class ElementJig;
 };
 
 #endif // JIGHANDLE_H

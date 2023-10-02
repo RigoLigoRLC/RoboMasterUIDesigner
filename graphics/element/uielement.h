@@ -45,6 +45,7 @@ class UiElement
 {
 public:
     UiElement(ElementType type, QGraphicsItem* item);
+    virtual ~UiElement();
 
     // Cancellable editing experience:
     // The uncommitted operation is held by graphical elements themselves.
@@ -83,11 +84,11 @@ public:
 
     // Line width
     void setLineWidth(int px);
-    int lineWidth() { return m_lineWidth; };
+    int lineWidth() const { return m_lineWidth; }
 
     // Color
     void setColor(ElementColor storedColor, ElementColor color);
-    ElementColor color() { return m_color; };
+    ElementColor color() const { return m_color; }
 
 protected:
     // Here lies some event methods that cannot be overridden in UiElement, they must be

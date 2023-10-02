@@ -4,31 +4,34 @@
 #include <QEvent>
 #include <QPoint>
 
+class JigHandle;
+
 class JigHandleMoveEvent : public QEvent
 {
 public:
     static constexpr int type = QEvent::User + 1;
     enum NewEditingState {
+        PrepareEdit,
         BeginEdit,
         DoingEdit,
         CommitEdit,
         CancelEdit,
     };
 
-    JigHandleMoveEvent(int handleId, QPoint oldPos, QPoint newPos, NewEditingState state) :
+    JigHandleMoveEvent(JigHandle* handle, QPoint oldPos, QPoint newPos, NewEditingState state) :
         QEvent((QEvent::Type)type),
-        m_handleId(handleId),
+        m_handle(handle),
         m_oldPos(oldPos),
         m_newPos(newPos),
         m_state(state) {  };
 
     QPoint newPos() { return m_newPos; }
     QPoint oldPos() { return m_oldPos; }
-    int handleId() { return m_handleId; }
+    JigHandle* handle() { return m_handle; }
     NewEditingState state() { return m_state; }
 
 protected:
-    const int m_handleId;
+    JigHandle *const m_handle;
     const QPoint m_oldPos, m_newPos;
     const NewEditingState m_state;
 };

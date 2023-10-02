@@ -42,7 +42,7 @@ bool AnchorJig::sceneEvent(QEvent *e)
     switch (int(e->type())) {
     case JigHandleMoveEvent::type: {
         auto me = (JigHandleMoveEvent*)e;
-        jigHandleMoved(me->handleId(), me->oldPos(), me->newPos());
+        jigHandleMoved(me->handle()->id(), me->oldPos(), me->newPos());
         return ElementJig::sceneEvent(e);
     }
     default:

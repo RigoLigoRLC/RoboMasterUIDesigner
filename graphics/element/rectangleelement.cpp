@@ -54,7 +54,6 @@ void RectangleElement::morphWithJigShape(ElementJig *jig)
         setRect(r);
         break;
     }
-    case NullJigType:
     default:
         break;
     }

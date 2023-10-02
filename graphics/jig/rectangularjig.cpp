@@ -14,8 +14,7 @@ RectangularJig::RectangularJig(QGraphicsItem* parent) :
     // Create all 8 handles
     // Counted from top-left handle, rotating clockwise, indexed from 0~7
     for (auto i = 0; i < 8; i++) {
-        auto handle = new JigHandle(this);
-        handle->setData(JigHandle::HandleIndex, i);
+        auto handle = new JigHandle(this, i);
         m_handles.append(handle);
     }
     m_centerHandle = new JigHandle(this);
@@ -168,7 +167,7 @@ bool RectangularJig::sceneEvent(QEvent *e)
     switch (int(e->type())) {
     case JigHandleMoveEvent::type: {
         auto me = (JigHandleMoveEvent*)e;
-        jigHandleMoved(me->handleId(), me->oldPos(), me->newPos());
+        jigHandleMoved(me->handle()->id(), me->oldPos(), me->newPos());
         return ElementJig::sceneEvent(e);
     }
     default:

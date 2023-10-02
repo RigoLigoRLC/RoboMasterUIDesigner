@@ -2,6 +2,7 @@
 #define ELEMENTJIG_H
 
 #include <QGraphicsItemGroup>
+#include "jighandle.h"
 
 enum JigType {
     NullJigType = 0,
@@ -30,6 +31,7 @@ protected:
 
 protected:
     bool m_active = false;
+    JigHandle* m_grabbedHandle;
 
 signals:
     void jigTransformed();

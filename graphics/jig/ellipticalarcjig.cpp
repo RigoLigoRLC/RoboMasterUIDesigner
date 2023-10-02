@@ -15,14 +15,9 @@ EllipticalArcJig::EllipticalArcJig(QGraphicsItem* parent) :
     m_angleBegin = (0.3) * M_PI;
     m_angleEnd = (1.7) * M_PI;
 
-    m_handleBegin = new JigHandle(this);
-    m_handleBegin->setData(JigHandle::HandleIndex, 0);
-
-    m_handleEnd = new JigHandle(this);
-    m_handleEnd->setData(JigHandle::HandleIndex, 1);
-
-    m_handleCenter = new JigHandle(this);
-    m_handleCenter->setData(JigHandle::HandleIndex, 2);
+    m_handleBegin = new JigHandle(this, 0);
+    m_handleEnd = new JigHandle(this, 1);
+    m_handleCenter = new JigHandle(this, 2);
 
     m_resultArc = new QGraphicsEllipseItem(this);
 
@@ -75,6 +70,9 @@ void EllipticalArcJig::restore()
     m_handleCenter->setCenter(m_rememberedState.center);
 
     invalidateGraphics();
+
+    setEnabled(false);
+    setEnabled(true);
 }
 
 void EllipticalArcJig::forget()
@@ -87,7 +85,7 @@ bool EllipticalArcJig::sceneEvent(QEvent *e)
     switch(int(e->type())) {
     case JigHandleMoveEvent::type: {
         auto me = (JigHandleMoveEvent*)e;
-        handleMoved(me->handleId(), me->oldPos(), me->newPos());
+        handleMoved(me->handle()->id(), me->oldPos(), me->newPos());
         return ElementJig::sceneEvent(e);
     }
     default:

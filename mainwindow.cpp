@@ -4,6 +4,8 @@
 #include "./ui_mainwindow.h"
 #include "ellipseelement.h"
 #include "ellipticalarcelement.h"
+#include "linearjig.h"
+#include "lineelement.h"
 #include "rectangleelement.h"
 #include "uielement.h"
 #include "projectmanager.h"
@@ -62,6 +64,7 @@ void MainWindow::initializeUi()
     m_scene->addJig(new RectangularJig);
     m_scene->addJig(new EllipticalArcJig);
     m_scene->addJig(new AnchorJig);
+    m_scene->addJig(new LinearJig);
     connect(m_scene, &DesignerGraphicsScene::jigStateChanged, this, &MainWindow::_q_jigStateChanged);
 //    connect(m_scene, &DesignerGraphicsScene::colorSelectionChanged, this, &MainWindow::_q_colorChanged);
     connect(m_scene, &DesignerGraphicsScene::addedToSelection, this, &MainWindow::_q_addedToSelection);
@@ -75,9 +78,17 @@ void MainWindow::initializeUi()
 
     // Set up add item menu
     m_menuAddItem = new QMenu(this);
+    m_actAddLine = new QAction(tr("&Line"));
     m_actAddRect = new QAction(tr("&Rectangle"));
     m_actAddEllipse = new QAction(tr("&Ellipse"));
     m_actAddArc = new QAction(tr("&Arc"));
+
+    m_actAddLine->setData(LineElementType);
+    m_actAddRect->setData(RectangleElementType);
+    m_actAddEllipse->setData(EllipseElementType);
+    m_actAddArc->setData(ArcElementType);
+
+    ui->tbAdd->addAction(m_actAddLine);
     ui->tbAdd->addAction(m_actAddRect);
     ui->tbAdd->addAction(m_actAddEllipse);
     ui->tbAdd->addAction(m_actAddArc);
@@ -125,11 +136,15 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
             qWarning() << "Unexpected element type" << elem->type();
             return;
         case LineElementType: {
+            auto e = (LineElement*)elem;
+            ui->spinX->setValue(e->rmLine().p1().x());
+            ui->spinY->setValue(e->rmLine().p1().y());
+            ui->spinLineX2->setValue(e->rmLine().p2().x());
+            ui->spinLineY2->setValue(e->rmLine().p2().y());
             break;
         }
         case RectangleElementType: {
             auto e = (RectangleElement*)elem;
-            ui->stackObjectProp->setCurrentIndex(elem->type());
             ui->spinX->setValue(e->rmRect().left());
             ui->spinY->setValue(e->rmRect().top());
             ui->spinRectX2->setValue(e->rmRect().right());
@@ -141,7 +156,6 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
         }
         case EllipseElementType: {
             auto e = (EllipseElement*)elem;
-            ui->stackObjectProp->setCurrentIndex(elem->type());
             ui->spinX->setValue(e->rmRect().left());
             ui->spinY->setValue(e->rmRect().top());
             ui->spinEllipseXsemiaxis->setValue(e->rmRect().width() / 2);
@@ -150,9 +164,8 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
         }
         case ArcElementType: {
             auto e = (EllipticalArcElement*)elem;
-            ui->stackObjectProp->setCurrentIndex(elem->type());
-            ui->spinX->setValue(e->rmRect().left());
-            ui->spinY->setValue(e->rmRect().top());
+            ui->spinX->setValue(e->rmRect().center().x());
+            ui->spinY->setValue(1080 - e->rmRect().center().y());
             ui->spinArcXsemiaxis->setValue(e->rmRect().width() / 2);
             ui->spinArcYsemiaxis->setValue(e->rmRect().height() / 2);
             ui->spinArcStartingAngle->setValue(std::get<0>(e->degrees()));
@@ -170,6 +183,7 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
         }
         }
 
+        ui->stackObjectProp->setCurrentIndex(elem->type());
         ui->spinWidth->setValue(elem->lineWidth());
         _q_colorChanged(elem->color());
     } else {
@@ -299,15 +313,12 @@ void MainWindow::_q_jigEditCommitted(size_t uid)
 void MainWindow::on_tbAdd_triggered(QAction *act)
 {
     ProjectManager::ItemEntry *entry = nullptr;
+    QPoint center = ui->graphicsView->mapToScene(ui->graphicsView->viewport()->geometry())
+                        .boundingRect()
+                        .center()
+                        .toPoint();
 
-    if (act == m_actAddRect) {
-        entry = m_prj->createNewElement(RectangleElementType, m_currentLayer);
-    } else if (act == m_actAddEllipse) {
-        entry = m_prj->createNewElement(EllipseElementType, m_currentLayer);
-    } else if (act == m_actAddArc) {
-        entry = m_prj->createNewElement(ArcElementType, m_currentLayer);
-    }
-    // TODO: all actions...
+    entry = m_prj->createNewElement(ElementType(act->data().toInt()), m_currentLayer, center);
 
     if (entry) {
         m_scene->insertElement(entry->element, m_currentLayer);
@@ -327,5 +338,14 @@ void MainWindow::on_spinWidth_valueChanged(int arg1)
     foreach (auto i, m_selection) {
         m_prj->getItemEntry(i)->element->setLineWidth(arg1);
     }
+}
+
+
+void MainWindow::on_btnDelete_clicked()
+{
+    foreach (auto i, m_selection) {
+        m_prj->removeElement(i);
+    }
+    m_scene->clearElementSelection();
 }
 

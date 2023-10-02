@@ -1,6 +1,7 @@
 
 #include "ellipseelement.h"
 #include "ellipticalarcelement.h"
+#include "lineelement.h"
 #include "rectangleelement.h"
 #include "projectmanager.h"
 #include "../mainwindow.h"
@@ -19,7 +20,7 @@ ProjectManager::ItemEntry *ProjectManager::getItemEntry(size_t uid)
         return nullptr;
 }
 
-ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, size_t layer)
+ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, size_t layer, QPoint center)
 {
     Q_ASSERT(layer >= 0 && layer <= 9);
     UiElement *newElem = nullptr;
@@ -31,11 +32,13 @@ ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, si
         return nullptr;
 
     case LineElementType:
+        newElem = new LineElement;
+        ((LineElement*)newElem)->setLine(center.x() - 50.0, center.y(), center.x() + 50.0, center.y());
         break;
 
     case RectangleElementType:
         newElem = new RectangleElement;
-        ((RectangleElement*)newElem)->setRect({ 0, 0, 100, 100 }); // TODO: defaults?
+        ((RectangleElement*)newElem)->setRect({ center.x() - 50.0, center.y() - 50.0, 100, 100 });
         break;
 
     case CircleElementType:
@@ -43,13 +46,12 @@ ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, si
 
     case EllipseElementType:
         newElem = new EllipseElement;
-        ((EllipseElement*)newElem)->setRect({ 0, 0, 100, 100 });
+        ((EllipseElement*)newElem)->setRect({ center.x() - 50.0, center.y() - 50.0, 100, 100 });
         break;
 
     case ArcElementType:
         newElem = new EllipticalArcElement;
-        ((EllipticalArcElement*)newElem)->setRect({ 0, 0, 100, 100 });
-
+        ((EllipticalArcElement*)newElem)->setRect({ center.x() - 50.0, center.y() - 50.0, 100, 100 });
         break;
 
     case FloatingPointTextElementType:
@@ -75,6 +77,24 @@ ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, si
     setColor(newElem->uid(), m_lastColor);
 
     return &(m_store[newElem->uid()]);
+}
+
+bool ProjectManager::removeElement(size_t uid)
+{
+    if (m_store.contains(uid)) {
+        auto entry = m_store[uid];
+
+        entry.element->item()->scene()->removeItem(entry.element->item());
+        entry.item->parent()->removeChild(entry.item);
+
+        delete entry.element;
+        delete entry.item;
+        m_store.remove(uid);
+
+        return true;
+    }
+
+    return false;
 }
 
 void ProjectManager::commitJigEdit(size_t uid)

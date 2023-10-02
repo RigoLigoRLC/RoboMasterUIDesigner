@@ -7,6 +7,7 @@
 
 #include "ellipseelement.h"
 #include "ellipticalarcelement.h"
+#include "lineelement.h"
 #include "uielement.h"
 #include "rectangleelement.h"
 
@@ -33,6 +34,11 @@ UiElement::UiElement(ElementType type, QGraphicsItem *item) :
     m_uid = m_uidTop++;
 }
 
+UiElement::~UiElement()
+{
+
+}
+
 void UiElement::setLineWidth(int px)
 {
     QPen pen;
@@ -44,6 +50,9 @@ void UiElement::setLineWidth(int px)
     case NoneElementType:
         break;
     case LineElementType:
+        pen = ((LineElement*)m_item)->pen();
+        pen.setWidth(px);
+        ((LineElement*)m_item)->setPen(pen);
         break;
     case RectangleElementType:
         pen = ((RectangleElement*)m_item)->pen();
@@ -81,6 +90,9 @@ void UiElement::setColor(ElementColor storedColor, ElementColor color)
     case NoneElementType:
         break;
     case LineElementType:
+        pen = ((LineElement*)m_item)->pen();
+        pen.setColor(elementColorList[color]);
+        ((LineElement*)m_item)->setPen(pen);
         break;
     case RectangleElementType:
         pen = ((RectangleElement*)m_item)->pen();

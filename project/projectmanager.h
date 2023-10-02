@@ -20,7 +20,7 @@ public:
 
     ItemEntry* getItemEntry(size_t uid);
 
-    ItemEntry* createNewElement(ElementType type, size_t layer);
+    ItemEntry* createNewElement(ElementType type, size_t layer, QPoint center);
     bool removeElement(size_t uid);
     void commitJigEdit(size_t uid);
 

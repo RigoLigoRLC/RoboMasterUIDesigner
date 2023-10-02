@@ -7,21 +7,23 @@
 
 QColor JigHandle::HandleColor = QColor(Qt::cyan);
 
-JigHandle::JigHandle(QGraphicsItem *parent) :
+JigHandle::JigHandle(QGraphicsItem *parent, int idx) :
     QGraphicsRectItem(QRect(-HandleWidth / 2, -HandleWidth / 2, HandleWidth, HandleWidth), parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIgnoresTransformations, true);
     setBrush(HandleColor);
 
+    setData(HandleIndex, idx);
+
     m_moveConfirmed = false;
 
 }
 
-JigHandle::JigHandle(QRect rect, QGraphicsItem *parent) :
+JigHandle::JigHandle(QRect rect, QGraphicsItem *parent, int idx) :
     QGraphicsRectItem(rect, parent)
 {
-
+    setData(HandleIndex, idx);
 }
 
 void JigHandle::setCenter(QPoint p)
@@ -36,6 +38,13 @@ void JigHandle::mousePressEvent(QGraphicsSceneMouseEvent *e)
     QGraphicsRectItem::mousePressEvent(e);
     m_scenePressPos = e->scenePos();
     m_beginDragRectCenter = rect().center();
+
+    scene()->sendEvent(parentItem(),
+                       new JigHandleMoveEvent(this,
+                                              m_beginDragRectCenter.toPoint(),
+                                              e->scenePos().toPoint(),
+                                              JigHandleMoveEvent::PrepareEdit)
+                       );
 }
 
 void JigHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
@@ -52,7 +61,7 @@ void JigHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
     }
 
     scene()->sendEvent(parentItem(),
-                       new JigHandleMoveEvent(data(HandleIndex).toInt(),
+                       new JigHandleMoveEvent(this,
                                               m_beginDragRectCenter.toPoint(),
                                               e->scenePos().toPoint(),
                                               state)
@@ -68,7 +77,7 @@ void JigHandle::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     m_moveConfirmed = false;
 
     scene()->sendEvent(parentItem(),
-                       new JigHandleMoveEvent(data(HandleIndex).toInt(),
+                       new JigHandleMoveEvent(this,
                                               m_beginDragRectCenter.toPoint(),
                                               e->scenePos().toPoint(),
                                               JigHandleMoveEvent::CommitEdit)

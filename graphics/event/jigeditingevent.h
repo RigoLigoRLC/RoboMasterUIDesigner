@@ -8,6 +8,7 @@ class JigEditingEvent : public QEvent {
 public:
     static constexpr int type = QEvent::User + 2;
     enum NewEditingState {
+        PrepareEdit,
         BeginEdit,
         DoingEdit,
         CommitEdit,

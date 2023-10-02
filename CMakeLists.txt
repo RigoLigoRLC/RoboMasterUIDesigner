@@ -34,11 +34,13 @@ set(PROJECT_SOURCES
         graphics/jig/rectangularjig.h graphics/jig/rectangularjig.cpp
         graphics/jig/ellipticalarcjig.h graphics/jig/ellipticalarcjig.cpp
         graphics/jig/anchorjig.h graphics/jig/anchorjig.cpp
+        graphics/jig/linearjig.h graphics/jig/linearjig.cpp
 
         graphics/element/uielement.h graphics/element/uielement.cpp
         graphics/element/rectangleelement.h graphics/element/rectangleelement.cpp
         graphics/element/ellipseelement.h graphics/element/ellipseelement.cpp
         graphics/element/ellipticalarcelement.h graphics/element/ellipticalarcelement.cpp
+        graphics/element/lineelement.h graphics/element/lineelement.cpp
 
         graphics/designergraphicsscene.h graphics/designergraphicsscene.cpp
         ${TS_FILES}

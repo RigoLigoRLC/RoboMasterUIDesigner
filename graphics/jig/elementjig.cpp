@@ -26,6 +26,10 @@ bool ElementJig::sceneEvent(QEvent *e)
         // the actual graphics data.
         auto me = (JigHandleMoveEvent*)e;
         switch (me->state()) {
+        case JigHandleMoveEvent::PrepareEdit:
+            m_grabbedHandle = me->handle();
+            qApp->sendEvent(scene(), new JigEditingEvent(JigEditingEvent::PrepareEdit, this));
+            break;
         case JigHandleMoveEvent::BeginEdit:
             qApp->sendEvent(scene(), new JigEditingEvent(JigEditingEvent::BeginEdit, this));
             break;
@@ -36,6 +40,7 @@ bool ElementJig::sceneEvent(QEvent *e)
             qApp->sendEvent(scene(), new JigEditingEvent(JigEditingEvent::CommitEdit, this));
             break;
         case JigHandleMoveEvent::CancelEdit:
+            m_grabbedHandle->m_moveConfirmed = false; // Manually clear it
             qApp->sendEvent(scene(), new JigEditingEvent(JigEditingEvent::CancelEdit, this));
             break;
         }
