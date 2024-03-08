@@ -7,8 +7,8 @@ LinearJig::LinearJig(QGraphicsItem *parent) :
 {
     m_indicatorLine = new QGraphicsLineItem(this);
     m_indicatorLine->setPen(QPen(Qt::DashLine));
-    m_handleP1 = new JigHandle(this, 1);
-    m_handleP2 = new JigHandle(this, 2);
+    m_handleP1 = JigHandle::Make(this, 1);
+    m_handleP2 = JigHandle::Make(this, 2);
 }
 
 void LinearJig::setLine(QLine line)

@@ -1,3 +1,4 @@
+#include <QCursor>
 #include <QPen>
 #include <QGraphicsSceneMouseEvent>
 #include "jighandlemoveevent.h"
@@ -6,6 +7,18 @@
 RectangularJig::RectangularJig(QGraphicsItem* parent) :
     ElementJig(parent)
 {
+    static constexpr Qt::CursorShape HandleShapes[] =
+    {
+        Qt::SizeFDiagCursor,
+        Qt::SizeVerCursor,
+        Qt::SizeBDiagCursor,
+        Qt::SizeHorCursor,
+        Qt::SizeFDiagCursor,
+        Qt::SizeVerCursor,
+        Qt::SizeBDiagCursor,
+        Qt::SizeHorCursor,
+    };
+
     // Create boundary representation
     m_boundary = new QGraphicsRectItem(QRectF(0, 0, 100, 100), this); // Sane default
     m_boundary->setPen(QPen(Qt::DashLine));
@@ -14,11 +27,12 @@ RectangularJig::RectangularJig(QGraphicsItem* parent) :
     // Create all 8 handles
     // Counted from top-left handle, rotating clockwise, indexed from 0~7
     for (auto i = 0; i < 8; i++) {
-        auto handle = new JigHandle(this, i);
+        auto handle = JigHandle::Make(this, i);
+        handle->handle()->setCursor(HandleShapes[i]);
         m_handles.append(handle);
     }
-    m_centerHandle = new JigHandle(this);
-    m_centerHandle->setData(JigHandle::HandleIndex, 8);
+    m_centerHandle = JigHandle::Make(this, 8);
+    m_centerHandle->handle()->setCursor(Qt::SizeAllCursor);
 
     // Set handles' positions
     invalidateHandlePositions();

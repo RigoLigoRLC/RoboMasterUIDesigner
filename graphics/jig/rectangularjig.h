@@ -46,8 +46,8 @@ protected:
     void jigHandleMoved(int id, QPointF oldPos, QPointF newPos);
 
 protected:
-    QVector<JigHandle*> m_handles;
-    JigHandle* m_centerHandle;
+    QVector<JigHandleAnchor*> m_handles;
+    JigHandleAnchor* m_centerHandle;
     QGraphicsRectItem* m_boundary;
 
     QRectF m_rememberedBoundary;

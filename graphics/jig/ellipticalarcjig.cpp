@@ -15,9 +15,9 @@ EllipticalArcJig::EllipticalArcJig(QGraphicsItem* parent) :
     m_angleBegin = (0.3) * M_PI;
     m_angleEnd = (1.7) * M_PI;
 
-    m_handleBegin = new JigHandle(this, 0);
-    m_handleEnd = new JigHandle(this, 1);
-    m_handleCenter = new JigHandle(this, 2);
+    m_handleBegin = JigHandle::Make(this, 0);
+    m_handleEnd = JigHandle::Make(this, 1);
+    m_handleCenter = JigHandle::Make(this, 2);
 
     m_resultArc = new QGraphicsEllipseItem(this);
 
@@ -57,7 +57,7 @@ std::tuple<double, double> EllipticalArcJig::rmArcBeginEndAnglesRadian()
 void EllipticalArcJig::remember()
 {
     m_rememberedState = {
-        m_angleBegin, m_angleEnd, m_halfWidth, m_halfHeight, m_handleCenter->rect().center().toPoint()
+                         m_angleBegin, m_angleEnd, m_halfWidth, m_halfHeight, m_handleCenter->center()
     };
 }
 
@@ -115,13 +115,13 @@ QPoint EllipticalArcJig::desiredHandlePos(double angle)
     relPos.ry() *= ((double)m_halfHeight / m_halfWidth);
 
     // Transform the point relative to the center
-    return (relPos + m_handleCenter->rect().center()).toPoint();
+    return (relPos + m_handleCenter->center()).toPoint();
 }
 
 double EllipticalArcJig::desiredHandleAngle(QPoint point)
 {
     // Get relative pos to the center
-    auto relPos = point - m_handleCenter->rect().center();
+    auto relPos = point - m_handleCenter->center();
 
     // Pin X and stretch Y to make the relPos on a circle
     relPos.ry() *= ((double)m_halfWidth / m_halfHeight);
@@ -153,7 +153,7 @@ void EllipticalArcJig::handleMoved(int id, QPoint oldPos, QPoint newPos)
 
 QRectF EllipticalArcJig::boundingRekt()
 {
-    auto c = m_handleCenter->rect().center();
+    auto c = m_handleCenter->center();
     return QRectF(c.x() - m_halfWidth, c.y() - m_halfHeight, m_halfWidth * 2, m_halfHeight * 2);
 }
 

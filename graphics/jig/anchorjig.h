@@ -26,7 +26,7 @@ private:
     void invalidateHandlePositions();
 
 private:
-    JigHandle *m_handle;
+    JigHandleAnchor *m_handle;
     QGraphicsRectItem *m_boundingRect;
 
     QRectF m_rememberedRect;

@@ -26,7 +26,7 @@ private:
     void invalidateHandlePositions();
 
 private:
-    JigHandle *m_handleP1, *m_handleP2;
+    JigHandleAnchor *m_handleP1, *m_handleP2;
     QGraphicsLineItem *m_indicatorLine;
 
     QLineF m_rememberedState;

@@ -48,7 +48,7 @@ protected:
     int m_halfWidth, m_halfHeight;
 
     // Center of the elliptical arc is determined by m_handleCenter's rect center entirely
-    JigHandle *m_handleBegin, *m_handleEnd, *m_handleCenter;
+    JigHandleAnchor *m_handleBegin, *m_handleEnd, *m_handleCenter;
     QGraphicsEllipseItem *m_resultArc;
 
     // Remembered state

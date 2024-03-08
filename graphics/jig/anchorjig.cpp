@@ -7,7 +7,7 @@ AnchorJig::AnchorJig(QGraphicsItem *parent) :
 {
     m_boundingRect = new QGraphicsRectItem(this);
     m_boundingRect->setPen(QPen(Qt::DashLine));
-    m_handle = new JigHandle(this);
+    m_handle = JigHandle::Make(this);
 }
 
 void AnchorJig::setRect(QRect rect)

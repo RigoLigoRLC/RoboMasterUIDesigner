@@ -1,5 +1,8 @@
 #include "gridedgraphicsview.h"
-
+#include <QMouseEvent>
+#include <QScrollBar>
+#include <QStyleHints>
+#include <QApplication>
 
 GridedGraphicsView::GridedGraphicsView(QWidget *parent) :
     QGraphicsView(parent)
@@ -15,7 +18,7 @@ void GridedGraphicsView::drawBackground(QPainter *painter, const QRectF &rect)
     QGraphicsView::drawBackground(painter, rect);
 
     // Paint background picture
-    painter->drawPixmap({0, 0, 1920, 1080}, m_clientBackground);
+    // painter->drawPixmap({0, 0, 1920, 1080}, m_clientBackground);
 
     const int gridStep = 10;
 
@@ -55,4 +58,56 @@ void GridedGraphicsView::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawLine(QLineF(0, 0, rect.right(), 0));
     painter->setPen(QPen(QColor(150, 255, 150, 70), 1));
     painter->drawLine(QLineF(0, 0, 0, rect.bottom()));
+}
+
+void GridedGraphicsView::mousePressEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::RightButton) {
+        m_backgroundDragging = DraggingPrepare;
+        m_backgroundDraggingMouseStartPos = e->globalPos();
+        m_backgroundDraggingViewStartPos = {horizontalScrollBar()->value(), verticalScrollBar()->value()};
+    } else if (m_backgroundDragging != DraggingConfirmed) {
+        QGraphicsView::mousePressEvent(e);
+    }
+}
+
+void GridedGraphicsView::mouseReleaseEvent(QMouseEvent *e)
+{
+    if (!e->buttons().testFlag(Qt::RightButton)) {
+        m_backgroundDragging = DraggingNone;
+    }
+    QGraphicsView::mouseReleaseEvent(e);
+}
+
+void GridedGraphicsView::mouseMoveEvent(QMouseEvent *e)
+{
+    if (m_backgroundDragging != DraggingNone) {
+        auto delta = e->globalPos() - m_backgroundDraggingMouseStartPos;
+
+        if (m_backgroundDragging == DraggingPrepare &&
+            QLineF({}, delta).length() > qApp->styleHints()->startDragDistance()) {
+            m_backgroundDragging = DraggingConfirmed;
+        }
+
+        if (m_backgroundDragging == DraggingConfirmed) {
+            auto newViewPos = m_backgroundDraggingViewStartPos - delta;
+            horizontalScrollBar()->setValue(newViewPos.x());
+            verticalScrollBar()->setValue(newViewPos.y());
+        }
+    }
+    QGraphicsView::mouseMoveEvent(e);
+}
+
+void GridedGraphicsView::resizeEvent(QResizeEvent *e)
+{
+    if (m_alwaysZoomToFit) {
+        zoomToFit();
+    } else {
+        QGraphicsView::resizeEvent(e);
+    }
+}
+
+void GridedGraphicsView::zoomToFit()
+{
+    fitInView({0, 0, 1920, 1080}, Qt::KeepAspectRatio);
 }

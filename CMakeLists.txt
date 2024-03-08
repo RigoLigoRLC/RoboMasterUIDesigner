@@ -29,6 +29,7 @@ set(PROJECT_SOURCES
         graphics/event/jigeditingevent.h
         graphics/event/elementselectionevent.h
 
+        graphics/jig/jighandleanchor.h
         graphics/jig/jighandle.h graphics/jig/jighandle.cpp
         graphics/jig/elementjig.h graphics/jig/elementjig.cpp
         graphics/jig/rectangularjig.h graphics/jig/rectangularjig.cpp

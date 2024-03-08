@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QStyleHints>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 
 QColor JigHandle::HandleColor = QColor(Qt::cyan);
 
@@ -39,7 +40,7 @@ void JigHandle::mousePressEvent(QGraphicsSceneMouseEvent *e)
     m_scenePressPos = e->scenePos();
     m_beginDragRectCenter = rect().center();
 
-    scene()->sendEvent(parentItem(),
+    scene()->sendEvent(parentJig(),
                        new JigHandleMoveEvent(this,
                                               m_beginDragRectCenter.toPoint(),
                                               e->scenePos().toPoint(),
@@ -60,7 +61,7 @@ void JigHandle::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         }
     }
 
-    scene()->sendEvent(parentItem(),
+    scene()->sendEvent(parentJig(),
                        new JigHandleMoveEvent(this,
                                               m_beginDragRectCenter.toPoint(),
                                               e->scenePos().toPoint(),
@@ -76,10 +77,20 @@ void JigHandle::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 
     m_moveConfirmed = false;
 
-    scene()->sendEvent(parentItem(),
+    scene()->sendEvent(parentJig(),
                        new JigHandleMoveEvent(this,
                                               m_beginDragRectCenter.toPoint(),
                                               e->scenePos().toPoint(),
                                               JigHandleMoveEvent::CommitEdit)
                        );
+}
+
+QGraphicsItem *JigHandle::parentJig()
+{
+    auto parent = parentItem();
+    if (!parent) {
+        return nullptr;
+    }
+    auto jig = parent->parentItem();
+    return jig;
 }

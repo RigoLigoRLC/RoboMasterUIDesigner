@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->graphicsView->setScene(m_scene);
     ui->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-//    ui->graphicsView->fitInView({0, 0, 1920, 1080}); // Not applicable now
+
+    on_cmbZoomLevel_currentIndexChanged(ui->cmbZoomLevel->currentIndex()); // Force update zoom level
 }
 
 MainWindow::~MainWindow()
@@ -71,10 +72,12 @@ void MainWindow::initializeUi()
     connect(m_scene, &DesignerGraphicsScene::batchAddedToSelection, this, &MainWindow::_q_batchAddedToSelection);
     connect(m_scene, &DesignerGraphicsScene::removedFromSelection, this, &MainWindow::_q_removedFromSelection);
     connect(m_scene, &DesignerGraphicsScene::selectionCleared, this, &MainWindow::_q_selectionCleared);
-
     connect(m_scene, &DesignerGraphicsScene::commitJigEdit, this, &MainWindow::_q_jigEditCommitted);
-
     connect(m_scene, &DesignerGraphicsScene::commitJigEdit, m_prj, &ProjectManager::commitJigEdit);
+
+    // Initialize background image of scene
+    m_backgroundPixmap = new QGraphicsPixmapItem(QPixmap(":/res/client_background.png"));
+    m_scene->addItem(m_backgroundPixmap);
 
     // Set up add item menu
     m_menuAddItem = new QMenu(this);
@@ -108,7 +111,8 @@ void MainWindow::initializeUi()
         itm->setFlags(itm->flags() & ~Qt::ItemIsSelectable);
         m_itemTreeLayerGroupItems.prepend(itm);
     }
-    connect(ui->treeItems, &QTreeWidget::currentItemChanged, this, &MainWindow::treeItemSelectionChanged);
+    connect(ui->treeItems, &QTreeWidget::currentItemChanged, this, &MainWindow::treeCurrentItemChanged);
+    connect(ui->treeItems, &QTreeWidget::itemSelectionChanged, this, &MainWindow::treeSelectionChanged);
     setCurrentLayer(0); // Set current layer to layer zero
 }
 
@@ -156,8 +160,8 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
         }
         case EllipseElementType: {
             auto e = (EllipseElement*)elem;
-            ui->spinX->setValue(e->rmRect().left());
-            ui->spinY->setValue(e->rmRect().top());
+            ui->spinX->setValue(e->rmRect().center().x());
+            ui->spinY->setValue(e->rmRect().center().y());
             ui->spinEllipseXsemiaxis->setValue(e->rmRect().width() / 2);
             ui->spinEllipseYsemiaxis->setValue(e->rmRect().height() / 2);
             break;
@@ -165,7 +169,7 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
         case ArcElementType: {
             auto e = (EllipticalArcElement*)elem;
             ui->spinX->setValue(e->rmRect().center().x());
-            ui->spinY->setValue(1080 - e->rmRect().center().y());
+            ui->spinY->setValue(e->rmRect().center().y());
             ui->spinArcXsemiaxis->setValue(e->rmRect().width() / 2);
             ui->spinArcYsemiaxis->setValue(e->rmRect().height() / 2);
             ui->spinArcStartingAngle->setValue(std::get<0>(e->degrees()));
@@ -224,7 +228,7 @@ void MainWindow::teamColorSelectionChanged(int id)
     m_prj->setTeamColor((ElementColor)id);
 }
 
-void MainWindow::treeItemSelectionChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void MainWindow::treeCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     // Check if it is top level
     if (current->parent() == nullptr) {
@@ -232,6 +236,12 @@ void MainWindow::treeItemSelectionChanged(QTreeWidgetItem *current, QTreeWidgetI
     } else {
         // TODO: do we support groups?
     }
+}
+
+void MainWindow::treeSelectionChanged()
+{
+    qDebug() << "treeSelectionChanged" << ui->treeItems->selectedItems();
+
 }
 
 void MainWindow::_q_jigStateChanged(int applicableJigs, JigType selectedJig)
@@ -347,5 +357,18 @@ void MainWindow::on_btnDelete_clicked()
         m_prj->removeElement(i);
     }
     m_scene->clearElementSelection();
+}
+
+
+void MainWindow::on_cmbZoomLevel_currentIndexChanged(int index)
+{
+    static constexpr float zoomLevels[] = {1, 4.0, 2.0, 1.5, 1.25, 1.0, 0.75, 0.5};
+
+    auto xform = ui->graphicsView->transform();
+    xform.setMatrix(zoomLevels[index], xform.m12(), xform.m13(),
+                    xform.m21(), zoomLevels[index], xform.m23(),
+                    xform.m31(), xform.m32(), xform.m33());
+    ui->graphicsView->setTransform(xform);
+    ui->graphicsView->setAlawysZoomToFit(index == 0);
 }
 

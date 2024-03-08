@@ -36,7 +36,8 @@ private slots:
     void jigSelectionChanged(int id);
     void colorSelctionChanged(int id);
     void teamColorSelectionChanged(int id);
-    void treeItemSelectionChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void treeCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void treeSelectionChanged();
 
     void _q_jigStateChanged(int applicableJigs, JigType selectedJig);
     void _q_colorChanged(ElementColor color);
@@ -52,6 +53,8 @@ private slots:
     void on_tbAdd_clicked();
     void on_spinWidth_valueChanged(int arg1);
     void on_btnDelete_clicked();
+
+    void on_cmbZoomLevel_currentIndexChanged(int index);
 
 public:
     // Constants
@@ -84,6 +87,9 @@ private:
     // Circle jig
     // Linear jig
     // Anchor jig
+
+    // Background image
+    QGraphicsPixmapItem *m_backgroundPixmap;
 
     // Add item menu
     QMenu *m_menuAddItem;

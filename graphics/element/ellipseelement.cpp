@@ -18,9 +18,8 @@ EllipseElement::EllipseElement(QGraphicsItem *parent) :
 QRect EllipseElement::rmRect()
 {
     auto r = rect();
-    auto h = r.height();
     r.setTop(1080 - r.top());
-    r.setHeight(h);
+    r.setBottom(1080 - r.bottom());
     return r.toAlignedRect();
 }
 
