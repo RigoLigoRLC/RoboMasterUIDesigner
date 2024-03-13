@@ -42,12 +42,13 @@ set(PROJECT_SOURCES
         graphics/element/ellipseelement.h graphics/element/ellipseelement.cpp
         graphics/element/ellipticalarcelement.h graphics/element/ellipticalarcelement.cpp
         graphics/element/lineelement.h graphics/element/lineelement.cpp
+        graphics/element/basetextelement.h graphics/element/basetextelement.cpp
 
         graphics/designergraphicsscene.h graphics/designergraphicsscene.cpp
         ${TS_FILES}
 )
 
-include_directories(graphics/event graphics/jig graphics/element project)
+include_directories(. graphics/event graphics/jig graphics/element project)
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(RoboMasterUIDesigner

@@ -3,6 +3,7 @@
 #include "ellipticalarcelement.h"
 #include "lineelement.h"
 #include "rectangleelement.h"
+#include "basetextelement.h"
 #include "projectmanager.h"
 #include "../mainwindow.h"
 
@@ -61,6 +62,8 @@ ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, si
         break;
 
     case StringElementType:
+        newElem = new BaseTextElement;
+        ((BaseTextElement*)newElem)->setPos(center);
         break;
     }
     if (newElem == nullptr) return nullptr;
@@ -68,7 +71,7 @@ ProjectManager::ItemEntry *ProjectManager::createNewElement(ElementType type, si
     newItem = new QTreeWidgetItem;
 
     newItem->setText(0, newElem->descriptiveText());
-    newItem->setData(0, MainWindow::ItemTreeItemUidRole, newElem->uid());
+    newItem->setData(0, MainWindow::ItemTreeItemUidRole, (long long)newElem->uid());
 
     newElem->setLineWidth(m_lastLineWidth);
 

@@ -8,6 +8,7 @@
 #include "lineelement.h"
 #include "rectangleelement.h"
 #include "uielement.h"
+#include "basetextelement.h"
 #include "projectmanager.h"
 #include <QGraphicsScene>
 #include <QDebug>
@@ -85,16 +86,19 @@ void MainWindow::initializeUi()
     m_actAddRect = new QAction(tr("&Rectangle"));
     m_actAddEllipse = new QAction(tr("&Ellipse"));
     m_actAddArc = new QAction(tr("&Arc"));
+    m_actAddString = new QAction(tr("&String"));
 
     m_actAddLine->setData(LineElementType);
     m_actAddRect->setData(RectangleElementType);
     m_actAddEllipse->setData(EllipseElementType);
     m_actAddArc->setData(ArcElementType);
+    m_actAddString->setData(StringElementType);
 
     ui->tbAdd->addAction(m_actAddLine);
     ui->tbAdd->addAction(m_actAddRect);
     ui->tbAdd->addAction(m_actAddEllipse);
     ui->tbAdd->addAction(m_actAddArc);
+    ui->tbAdd->addAction(m_actAddString);
 
     // Initialize status bar
     m_currentLayerIndicator = new QLabel;
@@ -183,6 +187,11 @@ void MainWindow::updatePropertyPanelAccordingToSelection()
             break;
         }
         case StringElementType: {
+            auto e = (BaseTextElement*)elem;
+            ui->spinX->setValue(e->pos().x());
+            ui->spinY->setValue(e->pos().y());
+            ui->edtString->setPlainText(e->text());
+            ui->spinStringSize->setValue(e->fontSize());
             break;
         }
         }
@@ -370,5 +379,11 @@ void MainWindow::on_cmbZoomLevel_currentIndexChanged(int index)
                     xform.m31(), xform.m32(), xform.m33());
     ui->graphicsView->setTransform(xform);
     ui->graphicsView->setAlawysZoomToFit(index == 0);
+}
+
+
+void MainWindow::on_spinArcXsemiaxis_valueChanged(int arg1)
+{
+
 }
 

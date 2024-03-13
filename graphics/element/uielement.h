@@ -73,7 +73,7 @@ public:
     virtual QString descriptiveText() = 0;
 
     // Unique incrementing ID for in-application indexing
-    size_t uid() { return m_uid; };
+    size_t uid() { return m_uid; }
     static void resetUidTop() { m_uidTop = 0; } // Reset incrementing uid to zero, called when chaning document
 
     // Associated item

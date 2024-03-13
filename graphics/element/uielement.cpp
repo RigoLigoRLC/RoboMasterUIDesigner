@@ -10,6 +10,7 @@
 #include "lineelement.h"
 #include "uielement.h"
 #include "rectangleelement.h"
+#include "basetextelement.h"
 
 size_t UiElement::m_uidTop = 0;
 QColor elementColorList[] = {
@@ -76,6 +77,9 @@ void UiElement::setLineWidth(int px)
     case IntegerTextElementType:
         break;
     case StringElementType:
+        pen = ((BaseTextElement*)m_item)->pen();
+        pen.setWidth(px);
+        ((BaseTextElement*)m_item)->setPen(pen);
         break;
     }
 }
@@ -116,6 +120,9 @@ void UiElement::setColor(ElementColor storedColor, ElementColor color)
     case IntegerTextElementType:
         break;
     case StringElementType:
+        pen = ((BaseTextElement*)m_item)->pen();
+        pen.setColor(elementColorList[color]);
+        ((BaseTextElement*)m_item)->setPen(pen);
         break;
     }
 }

@@ -56,6 +56,8 @@ private slots:
 
     void on_cmbZoomLevel_currentIndexChanged(int index);
 
+    void on_spinArcXsemiaxis_valueChanged(int arg1);
+
 public:
     // Constants
     static constexpr int ItemTreeItemLayerIdRole = Qt::UserRole + 1,
@@ -97,6 +99,7 @@ private:
     QAction *m_actAddRect;
     QAction *m_actAddArc;
     QAction *m_actAddEllipse;
+    QAction *m_actAddString;
 
     // Status bar indicators
     QLabel *m_currentLayerIndicator;
